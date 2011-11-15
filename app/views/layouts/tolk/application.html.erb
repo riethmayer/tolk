@@ -21,7 +21,7 @@
 
   <script type="text/javascript">
     $('td textarea').each(function(element) {
-    element.css({height: element.parent('td').height()+'px'});
+    element.css({height: $(element).parent('td').height()+'px'});
     });
   </script>
 </body>
