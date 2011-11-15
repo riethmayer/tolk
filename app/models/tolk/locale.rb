@@ -219,7 +219,7 @@ module Tolk
     end
 
     def find_phrases_with_translations(page, conditions = {})
-      result = Tolk::Phrase.joins(:translations).where({ :'tolk_translations.locale_id' => self.id }.merge(options)).order("tolk_phrases.key ASC")
+      result = Tolk::Phrase.joins(:translations).where({ :'tolk_translations.locale_id' => self.id }.merge(conditions)).order("tolk_phrases.key ASC")
 
       result.each do |phrase|
         phrase.translation = phrase.translations.for(self)
