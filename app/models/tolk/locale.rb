@@ -134,7 +134,7 @@ module Tolk
       existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
       phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?)', existing_ids]) if existing_ids.present?
 
-      result = phrases
+      result = phrases.where(options)
       ActiveRecord::Associations::Preloader.new result, :translations
       result
     end
@@ -151,7 +151,7 @@ module Tolk
 
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
       phrases = phrases.scoped(:conditions => ['tolk_phrases.id IN(?)', translations.map(&:phrase_id).uniq])
-      phrases
+      phrases.where(options)
     end
 
     def search_phrases_without_translation(query, page = nil, options = {})
@@ -165,7 +165,7 @@ module Tolk
 
       result = phrases
       ActiveRecord::Associations::Preloader.new result, :translations
-      result
+      result.where(options)
     end
 
     def to_hash
@@ -219,7 +219,7 @@ module Tolk
     end
 
     def find_phrases_with_translations(page, conditions = {})
-      result = Tolk::Phrase.where(:'tolk_translations.locale_id' => self.id).joins(:translations).order("tolk_phrases.key ASC")
+      result = Tolk::Phrase.joins(:translations).where({ :'tolk_translations.locale_id' => self.id }.merge(options)).order("tolk_phrases.key ASC")
 
       result.each do |phrase|
         phrase.translation = phrase.translations.for(self)
