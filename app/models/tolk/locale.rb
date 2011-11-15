@@ -115,12 +115,12 @@ module Tolk
       translations.count(:conditions => {:'tolk_translations.primary_updated' => true}) > 0
     end
 
-    def phrases_with_translation(page = nil)
-      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => false)
+    def phrases_with_translation
+      find_phrases_with_translations(:'tolk_translations.primary_updated' => false)
     end
 
-    def phrases_with_updated_translation(page = nil)
-      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => true)
+    def phrases_with_updated_translation
+      find_phrases_with_translations(:'tolk_translations.primary_updated' => true)
     end
 
     def count_phrases_without_translation
@@ -128,7 +128,7 @@ module Tolk
       Tolk::Phrase.count - existing_ids.count
     end
 
-    def phrases_without_translation(page = nil, options = {})
+    def phrases_without_translation(options = {})
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
 
       existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
@@ -139,7 +139,7 @@ module Tolk
       result
     end
 
-    def search_phrases(query, scope, page = nil, options = {})
+    def search_phrases(query, scope, options = {})
       return [] unless query.present?
 
       translations = case scope
@@ -154,8 +154,8 @@ module Tolk
       phrases.where(options)
     end
 
-    def search_phrases_without_translation(query, page = nil, options = {})
-      return phrases_without_translation(page, options) unless query.present?
+    def search_phrases_without_translation(query, options = {})
+      return phrases_without_translation(options) unless query.present?
 
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
 
@@ -218,7 +218,7 @@ module Tolk
       true
     end
 
-    def find_phrases_with_translations(page, conditions = {})
+    def find_phrases_with_translations(conditions = {})
       result = Tolk::Phrase.joins(:translations).where({ :'tolk_translations.locale_id' => self.id }.merge(conditions)).order("tolk_phrases.key ASC")
 
       result.each do |phrase|
