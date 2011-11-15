@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gem "rails", "3.1.1"
 
-gem 'will_paginate'
+gem 'kaminari'
 gem "ya2yaml"
 
 gem "capybara", :git => "https://github.com/jnicklas/capybara.git"
