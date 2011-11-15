@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'tolk'
-  s.version     = '1.0'
+  s.version     = '2.0'
   s.summary     = 'Rails engine providing web interface for managing i18n yaml files'
   s.description = 'Tolk is a web interface for doing i18n translations packaged as an engine for Rails applications.'
 
@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://www.rubyonrails.org'
 
   s.platform = Gem::Platform::RUBY
-  s.add_dependency('will_paginate')
+  s.add_dependency('kaminari', '~> 0.12.4')
   s.add_dependency('ya2yaml', '~> 0.26')
 
   s.files = Dir['README', 'MIT-LICENSE', 'config/routes.rb', 'init.rb', 'lib/**/*', 'app/**/*', 'public/tolk/**/*']
