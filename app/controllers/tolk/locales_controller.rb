@@ -25,6 +25,9 @@ module Tolk
 
     def all
       @phrases = @locale.phrases_with_translation.page params[:page]
+      @phrases.each do |phrase|
+        phrase.translation = phrase.translations.for(@locale)
+      end
     end
 
     def updated
