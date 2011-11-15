@@ -20,8 +20,8 @@
   </div>
 
   <script type="text/javascript">
-    $$('td textarea').each(function(element) {
-      element.setStyle({height: element.up('td').measure('height')+'px'});
+    $('td textarea').each(function(element) {
+      element.css({height: element.parent('td').height()+'px'});
     });
   </script>
 </body>
